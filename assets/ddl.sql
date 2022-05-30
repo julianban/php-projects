@@ -1,0 +1,15 @@
+CREATE TABLE lists(
+  ID INT(11) AUTO_INCREMENT,
+  title VARCHAR(50),
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE tasks (
+  ID INT(11) AUTO_INCREMENT,
+  details VARCHAR(255),
+  completed BOOLEAN;
+  id_list INT(11),
+  PRIMARY KEY (ID),
+  FOREIGN KEY (id_list) REFERENCES lists(ID)
+);
+
