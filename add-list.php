@@ -5,7 +5,9 @@ $title = $_POST['title'];
 $sql = "INSERT INTO lists(title) VALUES('$title')";
 
 if($conn->query($sql)===TRUE){
-  header("location: index.php");
+  echo "successfully added new task";
+}else{
+  echo "error";
 }
 
 ?>

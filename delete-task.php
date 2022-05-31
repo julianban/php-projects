@@ -1,10 +1,12 @@
 <?php 
 include 'db-config.php';
 $id = $_GET['ID'];
-$sql = "DELETE FROM tasks WHERE tasks.ID =$id";
+$sql = "DELETE FROM tasks WHERE tasks.ID ='$id'";
 
-mysqli_query($conn,$sql);
-header("location: index.php");
+if(mysqli_query($conn,$sql)===TRUE){
+  echo "success: $id  ";
+}
+mysqli_close($conn);
+//header("location: index.php");
 
-$conn->close();
 ?>

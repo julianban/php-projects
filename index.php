@@ -9,36 +9,46 @@
   <link rel="stylesheet" href="assets/css/index.css" type="text/css">
 
   <script src="https://kit.fontawesome.com/2696e4d99a.js" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-  <script src="assets/js/dynamic-page.js">
-    
-  </script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ 
   <title>Todolist</title>
 </head>
-<body onload="showSpecificTaskList(document.getElementById('select-list').value)">
-  <form action="add-list.php" method="post">
+<body>
+  <form id="add-list-form" method="post">
     <input class="field" type="text" name="title" placeholder="add list">
     <button class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
   </form>
 
-  <form action="add-task.php" method="post">
+  <form id="add-task-form" method="post">
     <input class="field" type="text" name="task" placeholder="add task">
-    <select class="field" name="list">
+    <select id="select-list1" class="field" name="list">
       <?php include 'task-lists.php';?>
     </select>
     <button class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
   </form>
-  <div id="tasks-table">
+
+  <div id="container">
     <div>
-    <select id="select-list" name="list" onchange="showSpecificTaskList(this.value)">
+    <select id="select-list" class="field" name="list">
       <?php include 'task-lists.php';?>
     </select>
-    <input id="search-bar" type="text" placeholder="Search" onkeyup="filter(this.value)">
+    <!-- ricerca task all'interno di una specifica lista -->
+    <input id="search-bar" class="field" type="text" placeholder="Search">
     </div>
-    <div id="data-rows">
-      <?php include 'get-tasks.php';?>  
-    </div> 
+    <table id="tasks-table">
+    </table>
   </div>
+
+  <script>
+    //listeners
+    $(document).ready(()=>{
+      $('#add-list-form').submit(createNewList);
+      $('#add-task-form').submit(createNewTask);
+      $('#select-list').change(load_table);
+      $('#search-bar').keyup(load_table);
+      load_table();
+    })
+  </script>
+  <script src="assets/js/dynamic-page.js"></script>
 </body>
 </html>
