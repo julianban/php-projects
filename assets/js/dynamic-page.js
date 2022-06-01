@@ -1,17 +1,3 @@
-//when typing on search bar (binded with the log-table), start a timer
-//which validate the text-input when it ends
-// var typingTimer = 1;          
-// var doneTypingInterval = 500;
-// const search_input = $('#search-bar');
-// function validateSearchBarInput(){
-//   clearTimeout(typingTimer);
-//   if (search_input.val()!='') {
-//       typingTimer = setTimeout(()=>{
-//           load_table();
-//       }, doneTypingInterval);
-//   }
-// }
-
 function load_table(){
   $.ajax({
     type: "POST",
@@ -31,12 +17,12 @@ function load_table(){
           while(i < row.length){
             var id = row[i].ID;
             str +=
-            '<tr>'+
+            '<tr id="row'+ id +'">'+
             '<td>'+row[i].details+'</td>'+
             '<td>'+row[i].title+'</td>'+
-            '<td><a class="btn btn-danger btn-lg" href="./delete-task.php?ID="' + id + '"><i class="fa-solid fa-xmark"></i></a></td>'+
-            '<td><td><a class="btn btn-outline-success btn-lg" href="./change-state-task.php?ID="' + id + '"><i class="fa-solid fa-check"></i></a></td>'+
-            '<td><a class="btn btn-outline-primary btn-lg" href="./update-page.php?ID="' + id + '"><i class="fa-solid fa-pen-clip"></i></a></td>'+
+            '<td><a class="btn btn-danger btn-lg" href="./delete-task.php?ID=' + id + '"><i class="fa-solid fa-xmark"></i></a></td>'+
+            '<td><button class="check-btn btn btn-outline-success btn-lg" data-id="'+ id +'"><i class="fa-solid fa-check"></i></button></td>'+
+            '<td><a class="btn btn-outline-primary btn-lg" href="./update-page.php?ID=' + id + '"><i class="fa-solid fa-pen-clip"></i></a></td>'+
             '</tr>';
             i++;
           }
@@ -48,7 +34,7 @@ function load_table(){
     }
   });
 }
-// ./delete-task.php?ID="2"
+
 function createNewList(){
   $.ajax({
     type: "POST",
@@ -77,8 +63,27 @@ function updateTask(){
     data: $("#update-task-form").serialize(),
     url: "update-task.php",
     success: function(data){
+      console.log(data);
       window.location.replace("index.php");
-      load_table();
     } 
+  })
+}
+
+function checkTaskCompleted(){
+  $.ajax({
+    type: "POST",
+    data: {
+      $ID:$('.check-btn').attr("data-id")
+    },
+    url: "change-state-task.php",
+    success: function(data){
+      console.log(data);
+      var rowData = JSON.parse(data);
+      var isCompleted = rowData[0];
+      var id_task = rowData[1]; 
+      if(isCompleted == 1){
+        $('#row'+id_task).css("background-color","#cccfd9");
+      }
+    }
   })
 }

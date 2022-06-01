@@ -3,7 +3,7 @@
 
   $keyword = $_POST['keyword'];
   $selected_list = $_POST['selectedList'];
-
+  
   if($keyword == ''){
     $sql = "SELECT t.ID,t.details, l.title
             FROM tasks t 

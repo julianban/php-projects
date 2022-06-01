@@ -1,22 +1,22 @@
 <?php
   include 'db-config.php';
-  $id = $_GET['ID'];
-  $query = "SELECT checked FROM tasks WHERE ID = '$id' ";
+  $id = intval($_POST['ID']);
+  $query = "SELECT completed FROM tasks WHERE ID = '$id' ";
   $result = mysqli_query($conn,$query);
-  $value_check = mysqli_fetch_assoc($result);
-
+  $result = mysqli_fetch_assoc($result);
   // tinyint: true != 0, false = 0s
-  if($value_check['checked'] == 1){
-    $sql = "UPDATE tasks SET checked = 0 WHERE ID = '$id'";
+  $value = $result['checked'];
+  if($value == 1){
+    $sql = "UPDATE tasks SET completed = 0 WHERE ID = '$id'";
   }
   
-  if($value_check['checked'] == 0){
-    $sql = "UPDATE tasks SET checked = 1 WHERE ID = '$id' ";
+  if($value == 0){
+    $sql = "UPDATE tasks SET completed = 1 WHERE ID = '$id' ";
   }
 
-  
-
-mysqli_query($conn,$sql);
+  if(mysqli_query($conn,$sql)===TRUE){
+    $array = array($value,$id);
+    echo json_encode($array);
+  }
 mysqli_close($conn);
-header("location: index.php");
 ?>

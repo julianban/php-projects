@@ -42,6 +42,7 @@
   <script>
     //listeners
     $(document).ready(()=>{
+      $('.check-btn').click(checkTaskCompleted);
       $('#add-list-form').submit(createNewList);
       $('#add-task-form').submit(createNewTask);
       $('#select-list').change(load_table);
