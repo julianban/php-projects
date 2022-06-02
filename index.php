@@ -14,14 +14,15 @@
   <title>Todolist</title>
 </head>
 <body>
-  <form id="add-list-form" method="post">
-    <input class="field" type="text" name="title" placeholder="add list">
+  <form id="add-list-form">
+    <input class="field" type="text" name="title" placeholder="add list" required>
     <button class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
   </form>
 
-  <form id="add-task-form" method="post">
-    <input class="field" type="text" name="task" placeholder="add task">
-    <select id="select-list1" class="field" name="list">
+  <form id="add-task-form">
+    <input class="field" type="text" name="task" placeholder="add task" required>
+    <input class="field" type="date" name="date" required>
+    <select id="select-list1" class="field" name="list" required>
       <?php include 'task-lists.php';?>
     </select>
     <button class="btn btn-primary"><i class="fa-solid fa-plus"></i></button>
@@ -30,9 +31,9 @@
   <div id="container">
     <div>
     <select id="select-list" class="field" name="list">
+      <option value="all">all</option>
       <?php include 'task-lists.php';?>
     </select>
-    <!-- ricerca task all'interno di una specifica lista -->
     <input id="search-bar" class="field" type="text" placeholder="Search">
     </div>
     <table id="tasks-table">
@@ -41,8 +42,7 @@
 
   <script>
     //listeners
-    $(document).ready(()=>{
-      $('.check-btn').click(checkTaskCompleted);
+    $(document).ready(()=>{  
       $('#add-list-form').submit(createNewList);
       $('#add-task-form').submit(createNewTask);
       $('#select-list').change(load_table);

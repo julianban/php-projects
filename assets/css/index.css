@@ -35,6 +35,24 @@ form{
   font-size: 1.6rem;
 }
 
+.check-btn{
+  width: 3.8rem;
+  height: 3.6rem;
+  border: 1px solid #11b511;
+  background-color: transparent;
+  border-radius: .3rem;
+}
+
+.check-btn i{
+  color: #11b511;
+}
+
+.check-btn.completed{
+  background-color: #11b511;
+}
+.check-btn.completed i{
+  color: #fff;
+}
 #container{
   display: flex;
   flex-direction: column;

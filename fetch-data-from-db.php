@@ -5,15 +5,28 @@
   $selected_list = $_POST['selectedList'];
   
   if($keyword == ''){
-    $sql = "SELECT t.ID,t.details, l.title
-            FROM tasks t 
-            JOIN lists l ON l.ID = t.id_list
-            WHERE t.id_list = '$selected_list'";
+    if($selected_list == 'all'){
+      $sql = "SELECT t.ID,t.details, l.title, t.date_task, t.completed
+              FROM tasks t 
+              JOIN lists l ON l.ID = t.id_list";
+    }else{
+      $sql = "SELECT t.ID,t.details, l.title, t.date_task, t.completed
+      FROM tasks t 
+      JOIN lists l ON l.ID = t.id_list 
+      WHERE t.id_list = '$selected_list'";
+    }
   }else{ // based on keyword
-    $sql = "SELECT t.ID,t.details, l.title
-            FROM tasks t 
-            JOIN lists l ON l.ID = t.id_list 
-            WHERE t.details LIKE '%$keyword%' && t.id_list = '$selected_list'";
+    if($selected_list == 'all'){
+      $sql = "SELECT t.ID,t.details, l.title, t.date_task, t.completed
+              FROM tasks t 
+              JOIN lists l ON l.ID = t.id_list
+              WHERE t.details LIKE '%$keyword%'";
+    }else{
+      $sql = "SELECT t.ID,t.details, l.title, t.date, t.completed
+              FROM tasks t 
+              JOIN lists l ON l.ID = t.id_list 
+              WHERE t.details LIKE '%$keyword%' && t.id_list = '$selected_list'";
+    }
   }
   
   $result = $conn->query($sql);

@@ -1,22 +1,24 @@
 <?php
   include 'db-config.php';
-  $id = intval($_POST['ID']);
-  $query = "SELECT completed FROM tasks WHERE ID = '$id' ";
+  $id = $_POST['ID'];
+
+  $query = "SELECT completed FROM tasks WHERE ID = '$id'";
   $result = mysqli_query($conn,$query);
-  $result = mysqli_fetch_assoc($result);
+  $value = mysqli_fetch_assoc($result);
   // tinyint: true != 0, false = 0s
-  $value = $result['checked'];
-  if($value == 1){
+  $isCompleted = $value['completed'];
+  if($isCompleted == 1){ // if true
     $sql = "UPDATE tasks SET completed = 0 WHERE ID = '$id'";
   }
   
-  if($value == 0){
+  if($isCompleted == 0){ // if false
     $sql = "UPDATE tasks SET completed = 1 WHERE ID = '$id' ";
   }
 
   if(mysqli_query($conn,$sql)===TRUE){
-    $array = array($value,$id);
-    echo json_encode($array);
+    echo "$id";
+  }else{
+    echo "failed";
   }
-mysqli_close($conn);
+  mysqli_close($conn);
 ?>

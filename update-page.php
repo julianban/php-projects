@@ -24,6 +24,7 @@
 <body>
   <form id="update-task-form">
     <input class="field" type="text" name="task" value="<?=$data['details']?>">
+    <input class="field" type="date" name="date-task" >
     <select class="field" name="list">
       <?php include 'task-lists.php';?>
     </select>

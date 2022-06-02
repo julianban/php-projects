@@ -1,3 +1,4 @@
+
 function load_table(){
   $.ajax({
     type: "POST",
@@ -13,18 +14,20 @@ function load_table(){
         console.log(row);
         $('#tasks-table').html(function(){
           i=0;
-          var str = '<thead> <th>Task</th><th>List</th></thead>';
+          var str = '<thead> <th>Task</th><th>List</th><th>Date</th></thead>';
           while(i < row.length){
             var id = row[i].ID;
             str +=
             '<tr id="row'+ id +'">'+
             '<td>'+row[i].details+'</td>'+
             '<td>'+row[i].title+'</td>'+
+            '<td>'+row[i].date_task+'</td>'+
             '<td><a class="btn btn-danger btn-lg" href="./delete-task.php?ID=' + id + '"><i class="fa-solid fa-xmark"></i></a></td>'+
-            '<td><button class="check-btn btn btn-outline-success btn-lg" data-id="'+ id +'"><i class="fa-solid fa-check"></i></button></td>'+
+            '<td><button id="check-btn'+ id +'" class="check-btn" value="' + id + '" onclick="checkTaskIsCompleted(this.value)"><i class="fa-solid fa-check"></i></button></td>'+
             '<td><a class="btn btn-outline-primary btn-lg" href="./update-page.php?ID=' + id + '"><i class="fa-solid fa-pen-clip"></i></a></td>'+
             '</tr>';
             i++;
+            
           }
           return str;
         });
@@ -41,6 +44,7 @@ function createNewList(){
     data: $("#add-list-form").serialize(), //The .serialize() method creates a text string in standard URL-encoded notation. It can act on a jQuery object that has selected individual form controls
     url: "add-list.php",
     success: function(data){
+      console.log(data);
       window.location.replace("index.php");
     } 
   })
@@ -52,6 +56,7 @@ function createNewTask(){
     data: $("#add-task-form").serialize(),
     url: "add-task.php",
     success: function(data){
+      console.log(data);
       window.location.replace("index.php");
     } 
   })
@@ -69,21 +74,20 @@ function updateTask(){
   })
 }
 
-function checkTaskCompleted(){
+function checkTaskIsCompleted(task_id){
   $.ajax({
     type: "POST",
     data: {
-      $ID:$('.check-btn').attr("data-id")
+      ID: task_id
     },
     url: "change-state-task.php",
     success: function(data){
       console.log(data);
-      var rowData = JSON.parse(data);
-      var isCompleted = rowData[0];
-      var id_task = rowData[1]; 
-      if(isCompleted == 1){
-        $('#row'+id_task).css("background-color","#cccfd9");
+      if(data == 'failed'){
+        alert(data);
+      }else{
+        $('#check-btn'+ data).toggleClass("completed");
       }
-    }
+    } 
   })
 }
