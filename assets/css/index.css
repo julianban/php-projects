@@ -38,19 +38,22 @@ form{
 .check-btn{
   width: 3.8rem;
   height: 3.6rem;
-  border: 1px solid #11b511;
-  background-color: transparent;
   border-radius: .3rem;
 }
-
-.check-btn i{
+.check-btn.false{
+  border: 1px solid #11b511;
+  background-color: transparent;
+ 
+}
+.check-btn.false i{
   color: #11b511;
 }
 
-.check-btn.completed{
+.check-btn.true{
+  border: none;
   background-color: #11b511;
 }
-.check-btn.completed i{
+.check-btn.true i{
   color: #fff;
 }
 #container{

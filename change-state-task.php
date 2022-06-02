@@ -8,11 +8,11 @@
   // tinyint: true != 0, false = 0s
   $isCompleted = $value['completed'];
   if($isCompleted == 1){ // if true
-    $sql = "UPDATE tasks SET completed = 0 WHERE ID = '$id'";
+    $sql = "UPDATE tasks SET completed = false WHERE ID = '$id'";
   }
   
   if($isCompleted == 0){ // if false
-    $sql = "UPDATE tasks SET completed = 1 WHERE ID = '$id' ";
+    $sql = "UPDATE tasks SET completed = true WHERE ID = '$id' ";
   }
 
   if(mysqli_query($conn,$sql)===TRUE){

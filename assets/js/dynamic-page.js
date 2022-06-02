@@ -14,16 +14,19 @@ function load_table(){
         console.log(row);
         $('#tasks-table').html(function(){
           i=0;
-          var str = '<thead> <th>Task</th><th>List</th><th>Date</th></thead>';
+          var str = '<thead><th>Task</th><th>List</th><th>Date</th></thead>';
           while(i < row.length){
             var id = row[i].ID;
+            if(row[i].completed == 1){var isCompleted = "true";}
+            if(row[i].completed == 0){var isCompleted = "false";}
+
             str +=
             '<tr id="row'+ id +'">'+
             '<td>'+row[i].details+'</td>'+
             '<td>'+row[i].title+'</td>'+
             '<td>'+row[i].date_task+'</td>'+
             '<td><a class="btn btn-danger btn-lg" href="./delete-task.php?ID=' + id + '"><i class="fa-solid fa-xmark"></i></a></td>'+
-            '<td><button id="check-btn'+ id +'" class="check-btn" value="' + id + '" onclick="checkTaskIsCompleted(this.value)"><i class="fa-solid fa-check"></i></button></td>'+
+            '<td><button id="check-btn'+ id +'" class="check-btn '+ isCompleted +'" value="' + id + '" onclick="checkTaskIsCompleted(this.value)"><i class="fa-solid fa-check"></i></button></td>'+
             '<td><a class="btn btn-outline-primary btn-lg" href="./update-page.php?ID=' + id + '"><i class="fa-solid fa-pen-clip"></i></a></td>'+
             '</tr>';
             i++;
@@ -57,7 +60,7 @@ function createNewTask(){
     url: "add-task.php",
     success: function(data){
       console.log(data);
-      window.location.replace("index.php");
+     load_table();
     } 
   })
 }
@@ -86,8 +89,15 @@ function checkTaskIsCompleted(task_id){
       if(data == 'failed'){
         alert(data);
       }else{
-        $('#check-btn'+ data).toggleClass("completed");
+        if(data == 1){
+          $('#check-btn' + data).removeClass("false");
+          $('#check-btn' + data).addClass("true");
+        }else{
+          $('#check-btn' + data).removeClass("true");
+          $('#check-btn' + data).addClass("false");
+        }
       }
+      load_table();
     } 
   })
 }
